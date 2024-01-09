@@ -11,7 +11,7 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		<p>visit <a href="https://www.linkedin.com/in/aaaeide">linkedin.com/in/aaaeide</a> to learn more about Andreas</p>
 	</footer>
 </div>
 

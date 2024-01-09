@@ -18,14 +18,10 @@
 			</picture>
 		</span>
 
-		to your new<br />SvelteKit app
+		to my<br />demonstration app
 	</h1>
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+	<h2>See our <a href="/products">available products</a></h2>
 </section>
 
 <style>
@@ -39,6 +35,7 @@
 
 	h1 {
 		width: 100%;
+		font-family: 'Lato', sans-serif;
 	}
 
 	.welcome {
