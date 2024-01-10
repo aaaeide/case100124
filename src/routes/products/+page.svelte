@@ -2,11 +2,11 @@
 // on mount, fetch categories from /api/categories
 // and set them to $categories
 import { onMount } from 'svelte';
-import type { Category, Product } from '$lib/types';
+import type { Category, Product, Rating } from '$lib/types';
 
 let categories: Category[] = [];
-// map of product id to product
 let products: Product[] = [];
+let ratings: Rating[] = [];
 
 onMount(async () => {
 	// fetch categories
@@ -22,7 +22,7 @@ onMount(async () => {
 
 		categoryProducts.forEach((product) => {
 			if (!seen_products.has(product.id)) {
-				products = [...products, product];
+				products = [...products, {...product, rating: -1}];
 				seen_products.add(product.id);
 			}
 		});
@@ -34,12 +34,33 @@ onMount(async () => {
 	});
 
 	categories = await Promise.all(promises);
+
+	// fetch ratings
+	const ratingsResponse = await fetch('/api/ratings');
+	ratings = await ratingsResponse.json();
+	console.log(ratings);
 });
+
+$: if (ratings) {
+	products = products.map((product) => {
+		const rating = getRatingByProductId(product.id);
+		return {
+			...product,
+			rating: rating.rating
+		};
+	});
+}
 
 function getProductById(id: number): Product {
 	const product = products.find((product) => product.id === id);
 	if (!product) throw new Error(`Product ${id} not found`);
 	return product;
+}
+
+function getRatingByProductId(id: number): Rating {
+	const rating = ratings.find((rating) => rating.productId === id);
+	if (!rating) return { productId: id, rating: -1 };
+	return rating;
 }
 
 </script>
@@ -64,6 +85,9 @@ function getProductById(id: number): Product {
 				<h3>
 					{getProductById(productId).title}
 				</h3>
+				<p>
+					Rating: {getProductById(productId).rating}
+				</p>
 			</li>
 		{/each}
 	</ul>

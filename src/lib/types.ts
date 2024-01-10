@@ -9,4 +9,10 @@ export interface Product {
 	title: string;
 	image: string;
 	description: string;
+	rating: number;
+}
+
+export interface Rating {
+	productId: number;
+	rating: number;
 }
